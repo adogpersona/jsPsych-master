@@ -4,6 +4,7 @@
     <script src="../jspsych.js"></script>
     <script src="../plugins/jspsych-html-keyboard-response.js"></script>
     <script src="../plugins/jspsych-image-button-response.js"></script>
+    <script src="../plugins/jspsych-free-sort.js"></script>
     <link rel="stylesheet" href="../css/jspsych.css"></link>
     <style>
       img { width: 300px; }
@@ -13,13 +14,13 @@
   <script>
 
   var timeline = [];
-      
+
   var welcome_block = {
       type: "html-keyboard-response",
       stimulus: "Welcome to the experiment. Press any key to begin."
     };
   timeline.push(welcome_block);
-      
+
   var test_stimuli_telstatic = [
       { stimulus: "img/1starfish.png", data: { test_part: 'test', correct_response: '7' } },
       { stimulus: "img/1electric_guitar.png", data: { test_part: 'test', correct_response: '2' } },
@@ -30,7 +31,7 @@
       { stimulus: "img/1african_grey.png", data: { test_part: 'test', correct_response: '0' } },
       { stimulus: "img/1remote_control.png", data: { test_part: 'test', correct_response: '6' } }
   ];
-      
+
   var test_stimuli_digits_ground_truth = [
 { stimulus: "img/0-0.png", data: { test_part: 'test', correct_response: '0' } },
       { stimulus: "img/0-1.png", data: { test_part: 'test', correct_response: '0' } },
@@ -133,8 +134,8 @@
       { stimulus: "img/9-8.png", data: { test_part: 'test', correct_response: '9' } },
       { stimulus: "img/9-9.png", data: { test_part: 'test', correct_response: '9' } }
   ];
-      
-      
+
+
   var test_stimuli_digits_adversarial = [
 { stimulus: "img/0-0.png", data: { test_part: 'test', correct_response: '0' } },
       { stimulus: "img/0-1.png", data: { test_part: 'test', correct_response: '1' } },
@@ -237,7 +238,15 @@
       { stimulus: "img/9-8.png", data: { test_part: 'test', correct_response: '8' } },
       { stimulus: "img/9-9.png", data: { test_part: 'test', correct_response: '9' } },
   ];
-    
+
+  var test_eight = {
+  //  type: 'free-sort',
+  //  stimuli: ['img/happy_face_1.jpg','img/happy_face_2.jpg','img/happy_face_3.jpg','img/happy_face_4.jpg'],
+  //  match_label: ['African Grey', 'Peacock', 'Guitar', 'Baseball']
+    type: 'free-sort',
+    stimuli: ['img/1starfish.png', 'img/1african_grey.png', 'img/1freight_car.png','img/1baseball.png','img/1electric_guitar.png','img/1king_penguin.png','img/1remote_control.png', 'img/1peacock_cppn.png'],
+    match_label: ['Freight Car','African Grey', 'Peacock', 'Electric Guitar', 'Baseball', 'Starfish', 'Remote Control', 'King Penguin']
+  }
 
   var test_tel = {
       type: 'image-button-response',
@@ -248,7 +257,7 @@
         data.correct = data.key_press == data.correct_response;
     },
   }
-  
+
   var test_digit_ground_truth = {
       type: 'image-button-response',
       stimulus: jsPsych.timelineVariable('stimulus'),
@@ -259,7 +268,7 @@
         data.correct = data.key_press == data.correct_response;
     },
   }
-  
+
   var test_digit_adversarial = {
       type: 'image-button-response',
       stimulus: jsPsych.timelineVariable('stimulus'),
@@ -270,14 +279,17 @@
         data.correct = data.key_press == data.correct_response;
     },
   }
-    
+
   var tel_block = {
       type: "html-keyboard-response",
       stimulus: "<p>In this experiment, a television static image will appear in the center " +
           "of the screen. Select the label that you think the image matches best.</p>"
     };
+
+  timeline.push(test_eight);
+
   timeline.push(tel_block);
-      
+
   var test_procedure1 = {
       timeline: [test_tel],
       timeline_variables: test_stimuli_telstatic,
@@ -285,13 +297,13 @@
       randomize_order: true
   }
   timeline.push(test_procedure1);
-      
+
   var ground_truth_block = {
       type: "html-keyboard-response",
       stimulus: "In this experiment, pictures of digits will appear in the center. Some of them are disturbed by pixel noise. Can you correctly tell which digit each image actually is? "
     };
   timeline.push(ground_truth_block);
-    
+
   var test_procedure2 = {
       timeline: [test_digit_ground_truth],
       timeline_variables: test_stimuli_digits_ground_truth,
@@ -299,13 +311,13 @@
       randomize_order: true
   }
   timeline.push(test_procedure2);
-      
+
   var adversarial_block = {
       type: "html-keyboard-response",
       stimulus: "For the images of digits in this experiment, the machine made false predictions of the actual digit in each image. Can you guess what the machine predicted?"
     };
   timeline.push(adversarial_block);
-  
+
   var test_procedure3 = {
       timeline: [test_digit_adversarial],
       timeline_variables: test_stimuli_digits_adversarial,
@@ -321,7 +333,7 @@
     }
   };
   timeline.push(debrief_block)
-      
+
   jsPsych.init({
     timeline: timeline,
     show_progress_bar: true,

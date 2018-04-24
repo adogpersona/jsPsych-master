@@ -39,7 +39,7 @@ jsPsych.plugins['free-sort'] = (function() {
       sort_area_height: {
         type: jsPsych.plugins.parameterType.INT,
         pretty_name: 'Sort area height',
-        default: 1000,
+        default: 500,
         description: 'The height of the container that subjects can move the stimuli in.'
       },
       sort_area_width: {
@@ -103,16 +103,8 @@ jsPsych.plugins['free-sort'] = (function() {
     var init_locations = [];
 
     for (var i = 0; i < trial.stimuli.length; i++) {
-      var coordx = (trial.sort_area_width/9)*i;
-      var coordy = 300;
-
-      display_element.querySelector("#jspsych-free-sort-arena").innerHTML += '<textarea '+
-        'style="position: absolute; cursor: move; width:'+trial.stim_width+'px; height:20px; top:80px; left:'+coordx+'px; font-size: 12px">'+ trial.match_label[i]
-      +'</textarea>';
-
-      display_element.querySelector("#jspsych-free-sort-arena").innerHTML += '<div '+
-        'style="position: absolute; cursor: move; width:'+trial.stim_width+'px; height:'+trial.stim_height+'px; top:100px; left:'+coordx+'px; border:2px solid #444;">'+
-        '</div>';
+      var coordx = (trial.sort_area_width/9)*i+30;
+      var coordy = 100;
 
       display_element.querySelector("#jspsych-free-sort-arena").innerHTML += '<img '+
         'src="'+trial.stimuli[i]+'" '+
@@ -121,6 +113,14 @@ jsPsych.plugins['free-sort'] = (function() {
         'draggable="false" '+
         'style="position: absolute; cursor: move; width:'+trial.stim_width+'px; height:'+trial.stim_height+'px; top:'+coordy+'px; left:'+coordx+'px;">'+
         '</img>';
+
+      display_element.querySelector("#jspsych-free-sort-arena").innerHTML += '<textarea '+
+        'style="position: absolute; cursor: move; width:'+trial.stim_width+'px; height:30px; top:300px; left:'+coordx+'px; font-size: 12px">'+ trial.match_label[i]
+      +'</textarea>';
+
+      display_element.querySelector("#jspsych-free-sort-arena").innerHTML += '<div '+
+        'style="position: absolute; cursor: move; width:'+trial.stim_width+'px; height:'+trial.stim_height+'px; top:330px; left:'+coordx+'px; border:2px solid #444;">'+
+        '</div>';
 
       init_locations.push({
         "src": trial.stimuli[i],
