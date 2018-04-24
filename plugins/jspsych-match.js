@@ -7,14 +7,14 @@
  */
 
 
-jsPsych.plugins['free-sort'] = (function() {
+jsPsych.plugins['match'] = (function() {
 
   var plugin = {};
-
-  jsPsych.pluginAPI.registerPreload('free-sort', 'stimuli', 'image');
+  //mark a parameter as containing an element that should be preloaded
+  jsPsych.pluginAPI.registerPreload('match', 'stimuli', 'image');
 
   plugin.info = {
-    name: 'free-sort',
+    name: 'match',
     description: '',
     parameters: {
       stimuli: {
@@ -39,13 +39,13 @@ jsPsych.plugins['free-sort'] = (function() {
       sort_area_height: {
         type: jsPsych.plugins.parameterType.INT,
         pretty_name: 'Sort area height',
-        default: 1000,
+        default: 800,
         description: 'The height of the container that subjects can move the stimuli in.'
       },
       sort_area_width: {
         type: jsPsych.plugins.parameterType.INT,
         pretty_name: 'Sort area width',
-        default: 1000,
+        default: 800,
         description: 'The width of the container that subjects can move the stimuli in.'
       },
       prompt: {
@@ -69,9 +69,8 @@ jsPsych.plugins['free-sort'] = (function() {
       },
       match_label: {
         type: jsPsych.plugins.parameterType.STRING,
-        pretty_name: 'Label to match',
-        default: undefined,
-        array: true,
+        pretty_name: 'Label to Match',
+        default:  'Continue',
         description: 'The text box that matches particular image.'
       }
     }
@@ -80,7 +79,7 @@ jsPsych.plugins['free-sort'] = (function() {
   plugin.trial = function(display_element, trial) {
 
     var start_time = (new Date()).getTime();
-    console.log(trial.match_label[i]);
+
     var html = "";
     // check if there is a prompt and if it is shown above
     if (trial.prompt !== null && trial.prompt_location == "above") {
@@ -90,7 +89,8 @@ jsPsych.plugins['free-sort'] = (function() {
     html += '<div '+
       'id="jspsych-free-sort-arena" '+
       'class="jspsych-free-sort-arena" '+
-      'style="position: relative; width:'+trial.sort_area_width+'px; height:'+trial.sort_area_height+'px; border:2px solid #444;"></div>';
+      'style="position: relative; width:'+trial.sort_area_width+'px; height:'+trial.sort_area_height+'px; border:2px solid #444;"'+
+      '></div>';
 
     // check if prompt exists and if it is shown below
     if (trial.prompt !== null && trial.prompt_location == "below") {
@@ -103,29 +103,19 @@ jsPsych.plugins['free-sort'] = (function() {
     var init_locations = [];
 
     for (var i = 0; i < trial.stimuli.length; i++) {
-      var coordx = (trial.sort_area_width/9)*i;
-      var coordy = 300;
-
-      display_element.querySelector("#jspsych-free-sort-arena").innerHTML += '<textarea '+
-        'style="position: absolute; cursor: move; width:'+trial.stim_width+'px; height:20px; top:80px; left:'+coordx+'px; font-size: 12px">'+ trial.match_label[i]
-      +'</textarea>';
-
-      display_element.querySelector("#jspsych-free-sort-arena").innerHTML += '<div '+
-        'style="position: absolute; cursor: move; width:'+trial.stim_width+'px; height:'+trial.stim_height+'px; top:100px; left:'+coordx+'px; border:2px solid #444;">'+
-        '</div>';
 
       display_element.querySelector("#jspsych-free-sort-arena").innerHTML += '<img '+
         'src="'+trial.stimuli[i]+'" '+
         'data-src="'+trial.stimuli[i]+'" '+
         'class="jspsych-free-sort-draggable" '+
         'draggable="false" '+
-        'style="position: absolute; cursor: move; width:'+trial.stim_width+'px; height:'+trial.stim_height+'px; top:'+coordy+'px; left:'+coordx+'px;">'+
+        'style="position: absolute; cursor: move; width:'+trial.stim_width+'px; height:'+trial.stim_height+'px; top:'+coords.y+'px; left:'+coords.x+'px;">'+
         '</img>';
 
       init_locations.push({
         "src": trial.stimuli[i],
-        "x": coordx,
-        "y": coordy
+        "x": (trial.sort_area_width/9)*(i+1),
+        "y": trial.sort_area_height/3
       });
     }
 
