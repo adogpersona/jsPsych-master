@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../jspsych.js"></script>
+    <script src="../plugins/jspsych-image-button-response.js"></script>
+    <link rel="stylesheet" href="../css/jspsych.css"></link>
+    <style>
+      img { width: 300px; }
+    </style>
+  </head>
+  <body></body>
+  <script>
+
+  var timeline = [];
+      
+
+  timeline.push({
+    type: 'image-button-response',
+    stimulus: 'img/1starfish.png', data: { test_part: 'test', correct_response: 'Starfish'},
+    choices: ['African Grey', 'Baseball', 'Electric Guitar', 'Freight Car', 'King Penguin', 'Peacock', 'Remote Control', 'Starfish'],
+    prompt: "<p>What is this?</p>"
+  });
+
+  timeline.push({
+    type: 'image-button-response',
+    stimulus: 'img/1electric_guitar.png', data: { test_part: 'test', correct_response: 'Electric Guitar'},
+    choices: ['African Grey', 'Baseball', 'Electric Guitar', 'Freight Car', 'King Penguin', 'Peacock', 'Remote Control', 'Starfish'],
+    prompt: "<p>What is this?</p>"
+  });
+      
+  timeline.push({
+    type: 'image-button-response',
+    stimulus: 'img/1king_penguin.png', data: { test_part: 'test', correct_response: 'King Penguin'},
+    choices: ['African Grey', 'Baseball', 'Electric Guitar', 'Freight Car', 'King Penguin', 'Peacock', 'Remote Control', 'Starfish'],
+    prompt: "<p>What is this?</p>"
+  });
+
+  timeline.push({
+    type: 'image-button-response',
+    stimulus: 'img/1peacock_cppn.png', data: { test_part: 'test', correct_response: 'Peacock'},
+    choices: ['African Grey', 'Baseball', 'Electric Guitar', 'Freight Car', 'King Penguin', 'Peacock', 'Remote Control', 'Starfish'],
+    prompt: "<p>What is this?</p>"
+  });
+
+  timeline.push({
+    type: 'image-button-response',
+    stimulus: 'img/1freight_car.png', data: { test_part: 'test', correct_response: 'Freight Car'},
+    choices: ['African Grey', 'Baseball', 'Electric Guitar', 'Freight Car', 'King Penguin', 'Peacock', 'Remote Control', 'Starfish'],
+    prompt: "<p>What is this?</p>"
+  });
+      
+  timeline.push({
+    type: 'image-button-response',
+    stimulus: 'img/1baseball.png', data: { test_part: 'test', correct_response: 'Baseball'},
+    choices: ['African Grey', 'Baseball', 'Electric Guitar', 'Freight Car', 'King Penguin', 'Peacock', 'Remote Control', 'Starfish'],
+    prompt: "<p>What is this?</p>"
+  });
+      
+  timeline.push({
+    type: 'image-button-response',
+    stimulus: 'img/1african_grey.png', data: { test_part: 'test', correct_response: 'African Grey'},
+    choices: ['African Grey', 'Baseball', 'Electric Guitar', 'Freight Car', 'King Penguin', 'Peacock', 'Remote Control', 'Starfish'],
+    prompt: "<p>What is this?</p>"
+  });
+
+
+  timeline.push({
+    type: 'image-button-response',
+    stimulus: 'img/1remote_control.png', data: { test_part: 'test', correct_response: 'Remote Control'},
+    choices: ['African Grey', 'Baseball', 'Electric Guitar', 'Freight Car', 'King Penguin', 'Peacock', 'Remote Control', 'Starfish'],
+    response_ends_trial:,
+    prompt: "<p>What is this?</p>"
+  });
+
+  timeline.push({
+      type: 'image-button-response',
+      stimulus: function() {
+
+        var trials = jsPsych.data.get().filter({test_part: 'test'});
+        var correct_trials = trials.filter({correct: true});
+        var accuracy = Math.round(correct_trials.count() / trials.count() * 100);
+
+        return "<p>You responded correctly on "+accuracy+"% of the trials.</p>"+
+        "<p>Press any key to complete the experiment. Thank you!</p>";
+      }
+  });
+      
+  jsPsych.init({
+    timeline: timeline,
+    show_progress_bar: true,
+    on_finish: function(){jsPsych.data.displayData();}
+  });
+
+  </script>
+</html>
